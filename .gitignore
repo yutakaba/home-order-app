@@ -1,0 +1,20 @@
+# 環境変数（絶対にコミットしない）
+.env
+.env.local
+.env.production
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Go
+backend/tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
