@@ -18,12 +18,13 @@ export function useOrder() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: items.map(({ id, name, price, quantity, imageUrl }) => ({
+          items: items.map(({ id, name, price, quantity, imageUrl, recipe }) => ({
             id,
             name,
             price,
             quantity,
             imageUrl,
+            recipe,
           })),
           totalPrice,
         }),

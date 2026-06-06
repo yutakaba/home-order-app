@@ -30,7 +30,7 @@ func main() {
 	// ルーティング
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", handler.HealthCheck)
-	mux.HandleFunc("/orders", orderHandler.CreateOrder)
+	mux.HandleFunc("/orders", orderHandler.Orders)
 
 	// CORS設定（フロントエンドからのアクセスを許可）
 	c := cors.New(cors.Options{

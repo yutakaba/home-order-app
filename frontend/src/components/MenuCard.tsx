@@ -24,10 +24,13 @@ export function MenuCard({ item, cartItem, onAdd, onRemove }: MenuCardProps) {
         )}
       </div>
       <div className="menu-card__body">
+        {item.subcategory && (
+          <span className="menu-card__subcategory">{item.subcategory}</span>
+        )}
         <h3 className="menu-card__name">{item.name}</h3>
         <p className="menu-card__description">{item.description}</p>
         <div className="menu-card__footer">
-          <span className="menu-card__price">¥{item.price.toLocaleString()}</span>
+          <span className="cart__item-price">¥{item.price.toLocaleString()}</span>
           <div className="menu-card__controls">
             {quantity > 0 && (
               <button

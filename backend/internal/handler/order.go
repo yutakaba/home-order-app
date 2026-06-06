@@ -18,12 +18,46 @@ func NewOrderHandler(db *sql.DB) *OrderHandler {
 	return &OrderHandler{DB: db}
 }
 
-// CreateOrder は POST /orders を処理する
-func (h *OrderHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
+// Orders は GET/POST /orders をメソッドで振り分ける
+func (h *OrderHandler) Orders(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		h.ListOrders(w, r)
+	case http.MethodPost:
+		h.CreateOrder(w, r)
+	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+// ListOrders は GET /orders を処理する
+func (h *OrderHandler) ListOrders(w http.ResponseWriter, r *http.Request) {
+	rows, err := h.DB.Query(
+		`SELECT id, items, total_price, created_at FROM orders ORDER BY created_at DESC LIMIT 100`,
+	)
+	if err != nil {
+		log.Printf("DB取得エラー: %v", err)
+		http.Error(w, "注文履歴の取得に失敗しました", http.StatusInternalServerError)
 		return
 	}
+	defer rows.Close()
+
+	orders := make([]model.Order, 0)
+	for rows.Next() {
+		var o model.Order
+		if err := rows.Scan(&o.ID, &o.Items, &o.TotalPrice, &o.CreatedAt); err != nil {
+			log.Printf("行スキャンエラー: %v", err)
+			continue
+		}
+		orders = append(orders, o)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(orders)
+}
+
+// CreateOrder は POST /orders を処理する
+func (h *OrderHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 
 	var req model.CreateOrderRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

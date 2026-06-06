@@ -63,10 +63,6 @@ export function Cart({
 
         {items.length > 0 && (
           <div className="cart__footer">
-            <div className="cart__total">
-              <span>合計</span>
-              <span>¥{totalPrice.toLocaleString()}</span>
-            </div>
             <button
               className="cart__submit"
               onClick={onSubmit}

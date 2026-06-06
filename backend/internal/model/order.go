@@ -12,6 +12,7 @@ type OrderItem struct {
 	Price    int    `json:"price"`
 	Quantity int    `json:"quantity"`
 	ImageURL string `json:"imageUrl"`
+	Recipe   string `json:"recipe,omitempty"`
 }
 
 // Order はDBに保存する注文データ

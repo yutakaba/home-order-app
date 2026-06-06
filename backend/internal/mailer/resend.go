@@ -2,6 +2,7 @@ package mailer
 
 import (
 	"fmt"
+	"html"
 	"os"
 	"strings"
 
@@ -27,9 +28,16 @@ func SendOrderNotification(items []model.OrderItem, totalPrice int) error {
 	sb.WriteString("<tr><th>メニュー</th><th>数量</th><th>小計</th></tr>")
 
 	for _, item := range items {
+		nameCell := html.EscapeString(item.Name)
+		if item.Recipe != "" {
+			nameCell = fmt.Sprintf(
+				"%s<br><small style='color:#aaa;font-size:0.85em'>📋 %s</small>",
+				html.EscapeString(item.Name), html.EscapeString(item.Recipe),
+			)
+		}
 		sb.WriteString(fmt.Sprintf(
 			"<tr><td>%s</td><td>%d</td><td>¥%d</td></tr>",
-			item.Name,
+			nameCell,
 			item.Quantity,
 			item.Price*item.Quantity,
 		))

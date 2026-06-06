@@ -2,17 +2,24 @@ import { useState } from 'react'
 import { menuItems } from './data/menu'
 import { useCart } from './hooks/useCart'
 import { useOrder } from './hooks/useOrder'
+import { useHistory } from './hooks/useHistory'
 import { MenuCard } from './components/MenuCard'
 import { Cart } from './components/Cart'
+import { History } from './components/History'
+import { Splash } from './components/Splash'
 import { OrderSuccessModal } from './components/OrderSuccessModal'
 import './styles.css'
 
 type Category = 'all' | 'food' | 'drink'
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false)
   const [isSuccessOpen, setIsSuccessOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState<Category>('all')
+
+  const { orders, isLoading: isHistoryLoading, error: historyError, fetchOrders } = useHistory()
 
   const { cartItems, addToCart, removeFromCart, clearCart, totalCount, totalPrice } = useCart()
   const { submitOrder, isLoading, error } = useOrder()
@@ -31,20 +38,30 @@ export default function App() {
   }
 
   return (
-    <div className="app">
+    <div className={`app ${showSplash ? '' : 'app--ready'}`}>
+      {showSplash && <Splash onDone={() => setShowSplash(false)} />}
       {/* ヘッダー */}
       <header className="header">
         <h1 className="header__title">🏠 Home Bar</h1>
-        <button
-          className="header__cart-btn"
-          onClick={() => setIsCartOpen(true)}
-          aria-label="カートを開く"
-        >
-          🛒
-          {totalCount > 0 && (
-            <span className="header__cart-count">{totalCount}</span>
-          )}
-        </button>
+        <div className="header__actions">
+          <button
+            className="header__cart-btn"
+            onClick={() => setIsHistoryOpen(true)}
+            aria-label="注文履歴を開く"
+          >
+            📋
+          </button>
+          <button
+            className="header__cart-btn"
+            onClick={() => setIsCartOpen(true)}
+            aria-label="カートを開く"
+          >
+            🛒
+            {totalCount > 0 && (
+              <span className="header__cart-count">{totalCount}</span>
+            )}
+          </button>
+        </div>
       </header>
 
       {/* カテゴリータブ */}
@@ -88,6 +105,16 @@ export default function App() {
         onRemove={removeFromCart}
         onSubmit={handleSubmitOrder}
         isLoading={isLoading}
+      />
+
+      {/* 注文履歴 */}
+      <History
+        isOpen={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
+        orders={orders}
+        isLoading={isHistoryLoading}
+        error={historyError}
+        onOpen={fetchOrders}
       />
 
       {/* 注文完了モーダル */}
