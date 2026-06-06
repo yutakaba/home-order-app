@@ -15,7 +15,6 @@ export function Cart({
   isOpen,
   onClose,
   items,
-  totalPrice,
   onAdd,
   onRemove,
   onSubmit,
