@@ -1,6 +1,6 @@
 import { CartItem } from '../types'
 
-interface CartProps {
+type CartProps = {
   isOpen: boolean
   onClose: () => void
   items: CartItem[]

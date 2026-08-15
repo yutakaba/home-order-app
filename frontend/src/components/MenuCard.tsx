@@ -1,6 +1,6 @@
 import { MenuItem, CartItem } from '../types'
 
-interface MenuCardProps {
+type MenuCardProps = {
   item: MenuItem
   cartItem: CartItem | undefined
   onAdd: (item: MenuItem) => void

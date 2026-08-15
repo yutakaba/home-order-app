@@ -1,4 +1,4 @@
-interface OrderSuccessModalProps {
+type OrderSuccessModalProps = {
   isOpen: boolean
   onClose: () => void
 }
