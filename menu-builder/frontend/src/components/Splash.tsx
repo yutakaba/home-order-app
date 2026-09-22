@@ -43,6 +43,7 @@ export function Splash({ onDone }: SplashProps) {
           />
         ))}
         <div className="splash__icon-wrap">
+          {/* 将来的に自作アイコンに置き換える(現在はlucide-reactのhouseアイコンを流用) */}
           <span className="splash__emoji">🏠</span>
         </div>
         <h1 className="splash__title">Home Bar</h1>
