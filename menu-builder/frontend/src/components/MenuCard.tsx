@@ -13,20 +13,11 @@ export function MenuCard({ item, cartItem, onAdd, onRemove }: MenuCardProps) {
   return (
     <div className={`menu-card ${quantity > 0 ? 'in-cart' : ''}`}>
       <div className="menu-card__image-wrapper">
-        <img
-          src={item.imageUrl}
-          alt={item.name}
-          className="menu-card__image"
-          loading="lazy"
-        />
-        {quantity > 0 && (
-          <div className="menu-card__badge">{quantity}</div>
-        )}
+        <img src={item.imageUrl} alt={item.name} className="menu-card__image" loading="lazy" />
+        {quantity > 0 && <div className="menu-card__badge">{quantity}</div>}
       </div>
       <div className="menu-card__body">
-        {item.subcategory && (
-          <span className="menu-card__subcategory">{item.subcategory}</span>
-        )}
+        {item.subcategory && <span className="menu-card__subcategory">{item.subcategory}</span>}
         <h3 className="menu-card__name">{item.name}</h3>
         <p className="menu-card__description">{item.description}</p>
         <div className="menu-card__footer">

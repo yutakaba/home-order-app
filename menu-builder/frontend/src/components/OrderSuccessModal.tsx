@@ -8,11 +8,12 @@ export function OrderSuccessModal({ isOpen, onClose }: OrderSuccessModalProps) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal__icon">🎉</div>
         <h2 className="modal__title">注文しました！</h2>
         <p className="modal__message">
-          ご注文ありがとうございます。<br />
+          ご注文ありがとうございます。
+          <br />
           しばらくお待ちください！
         </p>
         <button className="modal__btn" onClick={onClose}>

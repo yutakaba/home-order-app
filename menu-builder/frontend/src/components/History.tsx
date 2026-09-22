@@ -33,10 +33,7 @@ export function History({ isOpen, onClose, orders, isLoading, error, onOpen }: H
 
   return (
     <>
-      <div
-        className={`cart-overlay ${isOpen ? 'cart-overlay--visible' : ''}`}
-        onClick={onClose}
-      />
+      <div className={`cart-overlay ${isOpen ? 'cart-overlay--visible' : ''}`} onClick={onClose} />
 
       <div className={`history ${isOpen ? 'history--open' : ''}`}>
         <div className="cart__header">
@@ -47,36 +44,37 @@ export function History({ isOpen, onClose, orders, isLoading, error, onOpen }: H
         </div>
 
         <div className="cart__body">
-          {isLoading && (
-            <p className="history__state">読み込み中...</p>
-          )}
-          {error && (
-            <p className="history__state history__state--error">{error}</p>
-          )}
+          {isLoading && <p className="history__state">読み込み中...</p>}
+          {error && <p className="history__state history__state--error">{error}</p>}
           {!isLoading && !error && dates.length === 0 && (
             <p className="history__state">注文履歴がありません</p>
           )}
-          {!isLoading && dates.map(date => (
-            <div key={date} className="history__group">
-              <p className="history__date">{date}</p>
-              {grouped[date].map(order => (
-                <div key={order.id} className="history__order">
-                  <ul className="history__items">
-                    {order.items.map((item, i) => (
-                      <li key={i} className="history__item">
-                        <span className="history__item-name">{item.name} × {item.quantity}</span>
-                        <span className="history__item-price">¥{(item.price * item.quantity).toLocaleString()}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="history__total">
-                    <span>合計</span>
-                    <span>¥{order.totalPrice.toLocaleString()}</span>
+          {!isLoading &&
+            dates.map((date) => (
+              <div key={date} className="history__group">
+                <p className="history__date">{date}</p>
+                {grouped[date].map((order) => (
+                  <div key={order.id} className="history__order">
+                    <ul className="history__items">
+                      {order.items.map((item, i) => (
+                        <li key={i} className="history__item">
+                          <span className="history__item-name">
+                            {item.name} × {item.quantity}
+                          </span>
+                          <span className="history__item-price">
+                            ¥{(item.price * item.quantity).toLocaleString()}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="history__total">
+                      <span>合計</span>
+                      <span>¥{order.totalPrice.toLocaleString()}</span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ))}
+                ))}
+              </div>
+            ))}
         </div>
       </div>
     </>

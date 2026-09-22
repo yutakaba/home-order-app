@@ -5,26 +5,22 @@ export function useCart() {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
 
   const addToCart = (item: MenuItem) => {
-    setCartItems(prev => {
-      const existing = prev.find(i => i.id === item.id)
+    setCartItems((prev) => {
+      const existing = prev.find((i) => i.id === item.id)
       if (existing) {
-        return prev.map(i =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-        )
+        return prev.map((i) => (i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i))
       }
       return [...prev, { ...item, quantity: 1 }]
     })
   }
 
   const removeFromCart = (itemId: string) => {
-    setCartItems(prev => {
-      const existing = prev.find(i => i.id === itemId)
+    setCartItems((prev) => {
+      const existing = prev.find((i) => i.id === itemId)
       if (existing && existing.quantity > 1) {
-        return prev.map(i =>
-          i.id === itemId ? { ...i, quantity: i.quantity - 1 } : i
-        )
+        return prev.map((i) => (i.id === itemId ? { ...i, quantity: i.quantity - 1 } : i))
       }
-      return prev.filter(i => i.id !== itemId)
+      return prev.filter((i) => i.id !== itemId)
     })
   }
 

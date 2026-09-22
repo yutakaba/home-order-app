@@ -25,9 +25,10 @@ export default function App() {
   const { cartItems, addToCart, removeFromCart, clearCart, totalCount, totalPrice } = useCart()
   const { submitOrder, isLoading, error } = useOrder()
 
-  const filteredItems = activeCategory === 'all'
-    ? menuItems
-    : menuItems.filter(item => item.category === activeCategory)
+  const filteredItems =
+    activeCategory === 'all'
+      ? menuItems
+      : menuItems.filter((item) => item.category === activeCategory)
 
   const handleSubmitOrder = async () => {
     const result = await submitOrder(cartItems)
@@ -38,14 +39,24 @@ export default function App() {
     }
   }
 
-  const getCategoryLabel = (cat: Category): React.ReactNode =>{
+  const getCategoryLabel = (cat: Category): React.ReactNode => {
     switch (cat) {
       case 'all':
         return 'すべて'
       case 'drink':
-        return <><Icon.CupSoda size="1em" />ドリンク</>
-      case 'food': 
-        return <><Icon.Utensils size="1em" />フード</>
+        return (
+          <>
+            <Icon.CupSoda size="1em" />
+            ドリンク
+          </>
+        )
+      case 'food':
+        return (
+          <>
+            <Icon.Utensils size="1em" />
+            フード
+          </>
+        )
     }
   }
 
@@ -54,7 +65,9 @@ export default function App() {
       {showSplash && <Splash onDone={() => setShowSplash(false)} />}
       {/* ヘッダー */}
       <header className="header">
-        <h1 className="header__title"><Icon.House size="1em" /> Home Bar</h1>
+        <h1 className="header__title">
+          <Icon.House size="1em" /> Home Bar
+        </h1>
         <div className="header__actions">
           <button
             className="header__cart-btn"
@@ -69,16 +82,14 @@ export default function App() {
             aria-label="カートを開く"
           >
             🛒
-            {totalCount > 0 && (
-              <span className="header__cart-count">{totalCount}</span>
-            )}
+            {totalCount > 0 && <span className="header__cart-count">{totalCount}</span>}
           </button>
         </div>
       </header>
 
       {/* カテゴリータブ */}
       <nav className="category-nav">
-        {(['all', 'drink', 'food'] as Category[]).map(cat => (
+        {(['all', 'drink', 'food'] as Category[]).map((cat) => (
           <button
             key={cat}
             className={`category-nav__btn ${activeCategory === cat ? 'category-nav__btn--active' : ''}`}
@@ -91,11 +102,11 @@ export default function App() {
 
       {/* メニューグリッド */}
       <main className="menu-grid">
-        {filteredItems.map(item => (
+        {filteredItems.map((item) => (
           <MenuCard
             key={item.id}
             item={item}
-            cartItem={cartItems.find(c => c.id === item.id)}
+            cartItem={cartItems.find((c) => c.id === item.id)}
             onAdd={addToCart}
             onRemove={removeFromCart}
           />
@@ -103,9 +114,7 @@ export default function App() {
       </main>
 
       {/* エラー表示 */}
-      {error && (
-        <div className="error-toast">{error}</div>
-      )}
+      {error && <div className="error-toast">{error}</div>}
 
       {/* カート */}
       <Cart
@@ -130,10 +139,7 @@ export default function App() {
       />
 
       {/* 注文完了モーダル */}
-      <OrderSuccessModal
-        isOpen={isSuccessOpen}
-        onClose={() => setIsSuccessOpen(false)}
-      />
+      <OrderSuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} />
     </div>
   )
 }

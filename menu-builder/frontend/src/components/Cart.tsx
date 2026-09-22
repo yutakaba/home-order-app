@@ -11,22 +11,11 @@ type CartProps = {
   isLoading: boolean
 }
 
-export function Cart({
-  isOpen,
-  onClose,
-  items,
-  onAdd,
-  onRemove,
-  onSubmit,
-  isLoading,
-}: CartProps) {
+export function Cart({ isOpen, onClose, items, onAdd, onRemove, onSubmit, isLoading }: CartProps) {
   return (
     <>
       {/* オーバーレイ */}
-      <div
-        className={`cart-overlay ${isOpen ? 'cart-overlay--visible' : ''}`}
-        onClick={onClose}
-      />
+      <div className={`cart-overlay ${isOpen ? 'cart-overlay--visible' : ''}`} onClick={onClose} />
 
       {/* カートドロワー */}
       <div className={`cart ${isOpen ? 'cart--open' : ''}`}>
@@ -42,7 +31,7 @@ export function Cart({
             <p className="cart__empty">カートは空です</p>
           ) : (
             <ul className="cart__list">
-              {items.map(item => (
+              {items.map((item) => (
                 <li key={item.id} className="cart__item">
                   <img src={item.imageUrl} alt={item.name} className="cart__item-image" />
                   <div className="cart__item-info">
@@ -62,11 +51,7 @@ export function Cart({
 
         {items.length > 0 && (
           <div className="cart__footer">
-            <button
-              className="cart__submit"
-              onClick={onSubmit}
-              disabled={isLoading}
-            >
+            <button className="cart__submit" onClick={onSubmit} disabled={isLoading}>
               {isLoading ? '送信中...' : '注文する 🎉'}
             </button>
           </div>
