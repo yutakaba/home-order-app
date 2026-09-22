@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import * as React from 'react'
+import * as Icon from 'lucide-react'
 import { menuItems } from './data/menu'
 import { useCart } from './hooks/useCart'
 import { useOrder } from './hooks/useOrder'
@@ -13,11 +14,11 @@ import './styles.css'
 type Category = 'all' | 'food' | 'drink'
 
 export default function App() {
-  const [showSplash, setShowSplash] = useState(true)
-  const [isCartOpen, setIsCartOpen] = useState(false)
-  const [isHistoryOpen, setIsHistoryOpen] = useState(false)
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false)
-  const [activeCategory, setActiveCategory] = useState<Category>('all')
+  const [showSplash, setShowSplash] = React.useState(true)
+  const [isCartOpen, setIsCartOpen] = React.useState(false)
+  const [isHistoryOpen, setIsHistoryOpen] = React.useState(false)
+  const [isSuccessOpen, setIsSuccessOpen] = React.useState(false)
+  const [activeCategory, setActiveCategory] = React.useState<Category>('all')
 
   const { orders, isLoading: isHistoryLoading, error: historyError, fetchOrders } = useHistory()
 
@@ -37,12 +38,23 @@ export default function App() {
     }
   }
 
+  const getCategoryLabel = (cat: Category): React.ReactNode =>{
+    switch (cat) {
+      case 'all':
+        return 'すべて'
+      case 'drink':
+        return <><Icon.CupSoda size="1em" />ドリンク</>
+      case 'food': 
+        return <><Icon.Utensils size="1em" />フード</>
+    }
+  }
+
   return (
     <div className={`app ${showSplash ? '' : 'app--ready'}`}>
       {showSplash && <Splash onDone={() => setShowSplash(false)} />}
       {/* ヘッダー */}
       <header className="header">
-        <h1 className="header__title">🏠 Home Bar</h1>
+        <h1 className="header__title"><Icon.House size="1em" /> Home Bar</h1>
         <div className="header__actions">
           <button
             className="header__cart-btn"
@@ -72,7 +84,7 @@ export default function App() {
             className={`category-nav__btn ${activeCategory === cat ? 'category-nav__btn--active' : ''}`}
             onClick={() => setActiveCategory(cat)}
           >
-            {cat === 'all' ? '✨ すべて' : cat === 'drink' ? '🍹 ドリンク' : '🍽️ フード'}
+            {getCategoryLabel(cat)}
           </button>
         ))}
       </nav>
